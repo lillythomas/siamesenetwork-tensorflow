@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow.contrib.slim as slim
 import random
-from tensorflow.examples.tutorials.mnist import input_data
+#from tensorflow.examples.tutorials.mnist import input_data
 from numpy.random import choice, permutation
 from itertools import combinations
 
@@ -17,7 +17,7 @@ class BatchGenerator():
 		random.seed(0)
 		self.labels = labels
 		print images.shape
-		self.images = images.reshape((55000, 28, 28, 1))
+		self.images = images.reshape((55000, 256, 256, 3))
 		self.tot = len(labels)
 		self.i = 5
 		self.num_idx = dict()
@@ -47,7 +47,3 @@ class BatchGenerator():
 			sim.append([0])
 		return np.array(left), np.array(right), np.array(sim)
 		
-
-def get_mnist():
-	mnist = input_data.read_data_sets("MNIST_data/")
-	return mnist
