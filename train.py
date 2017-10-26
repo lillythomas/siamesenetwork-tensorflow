@@ -3,16 +3,23 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow.contrib.slim as slim
 
-from dataset import BatchGenerator, get_mnist
+#from dataset import BatchGenerator
+import BatchDatasetReader as dataset
 from model import *
 
 flags.DEFINE_integer('batch_size', 100, 'Batch size.')
 flags.DEFINE_integer('train_iter', 5000, 'Total training iter')
 flags.DEFINE_integer('step', 500, 'Save after ... iteration')
 
-mnist = get_mnist()
-gen = BatchGenerator(mnist.train.images, mnist.train.labels)
-test_im = np.array([im.reshape((256,256,3)) for im in mnist.test.images])
+image_options = {'resize': True, 'resize_size': IMAGE_SIZE}
+train_dataset_reader = dataset.BatchDatset(train_records, image_options)
+train_images, train_annotations = train_dataset_reader.next_batch_inference_partitioned(part)
+
+validation_dataset_reader = dataset.BatchDatset(valid_records, image_options)
+valid_images, valid_annotations = validation_dataset_reader.next_batch_inference_partitioned(part)
+
+gen = BatchGenerator(train_images, train_annotations)
+test_im = np.array([im.reshape((256,256,3)) for im in valid_images])
 c = ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#990000', '#999900', '#009900', '#009999']
 
 
@@ -67,7 +74,7 @@ with tf.Session() as sess:
 			#generate test
 			feat = sess.run(left_output, feed_dict={left:test_im})
 			
-			labels = mnist.test.labels
+			labels = train_annotations
 			# plot result
 			f = plt.figure(figsize=(16,9))
 			for j in range(10):
