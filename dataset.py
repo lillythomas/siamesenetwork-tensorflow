@@ -8,8 +8,8 @@ from numpy.random import choice, permutation
 from itertools import combinations
 
 flags = tf.app.flags
+flags.DEFINE_integer('image_size', 256, 'Image size')
 FLAGS = flags.FLAGS
-
 
 class BatchGenerator():
 	def __init__(self, images, labels):
@@ -17,7 +17,7 @@ class BatchGenerator():
 		random.seed(0)
 		self.labels = labels
 		print images.shape
-		self.images = images.reshape((55000, 256, 256, 3))
+		self.images = images.reshape((55000, FLAGS.image_size, FLAGS.image_size, 3))
 		self.tot = len(labels)
 		self.i = 5
 		self.num_idx = dict()
