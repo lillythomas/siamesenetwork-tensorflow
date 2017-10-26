@@ -12,12 +12,12 @@ flags.DEFINE_integer('step', 500, 'Save after ... iteration')
 
 mnist = get_mnist()
 gen = BatchGenerator(mnist.train.images, mnist.train.labels)
-test_im = np.array([im.reshape((28,28,1)) for im in mnist.test.images])
+test_im = np.array([im.reshape((256,256,3)) for im in mnist.test.images])
 c = ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#990000', '#999900', '#009900', '#009999']
 
 
-left = tf.placeholder(tf.float32, [None, 28, 28, 1], name='left')
-right = tf.placeholder(tf.float32, [None, 28, 28, 1], name='right')
+left = tf.placeholder(tf.float32, [None, 256, 256, 3], name='left')
+right = tf.placeholder(tf.float32, [None, 256, 256, 3], name='right')
 with tf.name_scope("similarity"):
 	label = tf.placeholder(tf.int32, [None, 1], name='label') # 1 if same, 0 if different
 	label = tf.to_float(label)
