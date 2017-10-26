@@ -10,8 +10,10 @@ from model import *
 flags.DEFINE_integer('batch_size', 100, 'Batch size.')
 flags.DEFINE_integer('train_iter', 5000, 'Total training iter')
 flags.DEFINE_integer('step', 500, 'Save after ... iteration')
+flags.DEFINE_integer('image_size', 256, 'Image size')
 
-image_options = {'resize': True, 'resize_size': IMAGE_SIZE}
+
+image_options = {'resize': True, 'resize_size': flags.image_size}
 train_dataset_reader = dataset.BatchDatset(train_records, image_options)
 train_images, train_annotations = train_dataset_reader.next_batch_inference_partitioned(part)
 
@@ -19,12 +21,12 @@ validation_dataset_reader = dataset.BatchDatset(valid_records, image_options)
 valid_images, valid_annotations = validation_dataset_reader.next_batch_inference_partitioned(part)
 
 gen = BatchGenerator(train_images, train_annotations)
-test_im = np.array([im.reshape((256,256,3)) for im in valid_images])
+test_im = np.array([im.reshape((flags.image_size, flags.image_size,3)) for im in valid_images])
 c = ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#990000', '#999900', '#009900', '#009999']
 
 
-left = tf.placeholder(tf.float32, [None, 256, 256, 3], name='left')
-right = tf.placeholder(tf.float32, [None, 256, 256, 3], name='right')
+left = tf.placeholder(tf.float32, [None, flags.image_size, flags.image_size, 3], name='left')
+right = tf.placeholder(tf.float32, [None, flags.image_size, flags.image_size, 3], name='right')
 with tf.name_scope("similarity"):
 	label = tf.placeholder(tf.int32, [None, 1], name='label') # 1 if same, 0 if different
 	label = tf.to_float(label)
