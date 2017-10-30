@@ -5,6 +5,7 @@ import tensorflow.contrib.slim as slim
 
 #from dataset import BatchGenerator
 import BatchDatasetReader as dataset
+import DataParser as scene_parsing
 from model import *
 
 flags.DEFINE_integer('batch_size', 100, 'Batch size.')
