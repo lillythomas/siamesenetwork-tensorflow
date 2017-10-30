@@ -14,6 +14,7 @@ flags.DEFINE_integer('image_size', 256, 'Image size')
 
 
 image_options = {'resize': True, 'resize_size': FLAGS.image_size}
+train_records, valid_records = scene_parsing.read_dataset(FLAGS.data_dir)
 train_dataset_reader = dataset.BatchDatset(train_records, image_options)
 train_images, train_annotations = train_dataset_reader.next_batch_inference_partitioned(part)
 
