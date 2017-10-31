@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow.contrib.slim as slim
 
-import dataset_nonMNIST as dataset
+import dataset_nonMNIST as datasetNM
 #import BatchDatasetReader as dataset
 #import DataParser as scene_parsing
 from model import *
@@ -24,7 +24,7 @@ validation_dataset_reader = dataset.BatchDatset(valid_records, image_options)
 valid_images, valid_annotations = validation_dataset_reader.next_batch_inference_partitioned(part)"""
 
 train_images, train_labels, validation_images, validation_labels, data_sets
- = dataset.read_train_sets(FLAGS.dataDir, FLAGS.image_size, FLAGS.numClasses, validation_size=1)
+ = datasetNM.read_train_sets(FLAGS.dataDir, FLAGS.image_size, FLAGS.numClasses, validation_size=1)
 
 gen = BatchGenerator(train_images, train_labels)
 test_im = np.array([im.reshape((FLAGS.image_size, FLAGS.image_size,3)) for im in valid_images])
