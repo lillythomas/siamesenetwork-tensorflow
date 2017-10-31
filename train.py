@@ -3,26 +3,29 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tensorflow.contrib.slim as slim
 
-#from dataset import BatchGenerator
-import BatchDatasetReader as dataset
-import DataParser as scene_parsing
+import dataset_nonMNIST as dataset
+#import BatchDatasetReader as dataset
+#import DataParser as scene_parsing
 from model import *
 
 flags.DEFINE_integer('batch_size', 100, 'Batch size.')
 flags.DEFINE_integer('train_iter', 5000, 'Total training iter')
 flags.DEFINE_integer('step', 500, 'Save after ... iteration')
 flags.DEFINE_integer('image_size', 256, 'Image size')
+flags.DEFINE_integer('dataDir', './', 'Directory containing training images')
+flags.DEFINE_integer('numClasses', 10, 'Number of classes')
 
-
-image_options = {'resize': True, 'resize_size': FLAGS.image_size}
+"""image_options = {'resize': True, 'resize_size': FLAGS.image_size}
 train_records, valid_records = scene_parsing.read_dataset(FLAGS.data_dir)
 train_dataset_reader = dataset.BatchDatset(train_records, image_options)
 train_images, train_annotations = train_dataset_reader.next_batch_inference_partitioned(part)
 
 validation_dataset_reader = dataset.BatchDatset(valid_records, image_options)
-valid_images, valid_annotations = validation_dataset_reader.next_batch_inference_partitioned(part)
+valid_images, valid_annotations = validation_dataset_reader.next_batch_inference_partitioned(part)"""
+fl
+images, labels, ids, cls = dataset.load_train(FLAGS.dataDir, FLAGS.image_size, FLAGS.numClasses)
 
-gen = BatchGenerator(train_images, train_annotations)
+gen = BatchGenerator(images, labels)
 test_im = np.array([im.reshape((FLAGS.image_size, FLAGS.image_size,3)) for im in valid_images])
 c = ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#990000', '#999900', '#009900', '#009999']
 
