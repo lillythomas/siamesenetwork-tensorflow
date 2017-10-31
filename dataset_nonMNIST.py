@@ -4,6 +4,15 @@ import numpy as np
 import cv2
 from sklearn.utils import shuffle
 
+def resize(i):
+    os.system('convert '+i+' -resize 256x256! '+i)
+
+"""jobs=[]
+for i in glob.glob(args.dir+'*png'):
+    p = multiprocessing.Process(target=resize, args=[i])
+    jobs.append(p)
+    p.start()
+p.join()"""
 
 def load_train(train_path, image_size, classes):
     images = []
@@ -17,6 +26,7 @@ def load_train(train_path, image_size, classes):
         print('Loading {} files (Index: {})'.format(fld, index))
         path = os.path.join(train_path, fld, '*g')
         files = glob.glob(path)
+        resize(files)
         for fl in files:
             image = cv2.imread(fl)
             image = cv2.resize(image, (image_size, image_size), cv2.INTER_LINEAR)
