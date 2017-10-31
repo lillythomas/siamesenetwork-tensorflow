@@ -23,9 +23,10 @@ train_images, train_annotations = train_dataset_reader.next_batch_inference_part
 validation_dataset_reader = dataset.BatchDatset(valid_records, image_options)
 valid_images, valid_annotations = validation_dataset_reader.next_batch_inference_partitioned(part)"""
 
-images, labels = dataset.read_train_sets(FLAGS.dataDir, FLAGS.image_size, FLAGS.numClasses, validation_size=1)
+train_images, train_labels, validation_images, validation_labels, data_sets
+ = dataset.read_train_sets(FLAGS.dataDir, FLAGS.image_size, FLAGS.numClasses, validation_size=1)
 
-gen = BatchGenerator(images, labels)
+gen = BatchGenerator(train_images, train_labels)
 test_im = np.array([im.reshape((FLAGS.image_size, FLAGS.image_size,3)) for im in valid_images])
 c = ['#ff0000', '#ffff00', '#00ff00', '#00ffff', '#0000ff', '#ff00ff', '#990000', '#999900', '#009900', '#009999']
 
